@@ -2,7 +2,7 @@
 
 *Testing*
 
-`npm run test`
+`npm test`
 
 *Running*
 
@@ -20,6 +20,7 @@ cd take-home-tests
 
 git checkout dius-tennis
 
-nvm install 12
-npm install
+nvm install 14 # Latest node
+
+npm install # Get Jest deps
 ```
