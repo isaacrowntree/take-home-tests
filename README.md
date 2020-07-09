@@ -6,7 +6,7 @@
 
 *Running*
 
-`npm run scorer`
+`npm start`
 
 *Installing*
 

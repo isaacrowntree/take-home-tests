@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "start": "node index.js"
   },
   "jest": {
     "transform": {
