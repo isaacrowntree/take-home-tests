@@ -22,5 +22,5 @@ git checkout dius-tennis
 
 nvm install 14 # Latest node
 
-npm install # Get Jest deps
+npm install # Get dev deps
 ```
