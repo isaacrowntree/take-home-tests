@@ -2,8 +2,6 @@
 
 // Pseudocode
 
-import startMatch from './lib/tennis.js';
-
 /*
   Match match = new Match("player 1", "player 2");
   match.pointWonBy("player 1");
@@ -31,6 +29,7 @@ import startMatch from './lib/tennis.js';
 */
 
 // Javascript variant of above
+import startMatch from './lib/tennis.js';
 
 const match = startMatch('player 1', 'player 2');
 match.pointWonBy('player 1');
