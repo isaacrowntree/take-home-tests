@@ -50,6 +50,8 @@ function Reducer(state: State, action: Action): State {
                 return { ...state, x: moveX, y: moveY};
             }
             return state;
+        case COMMANDS.Left:
+            
         default:
             return state;
     }

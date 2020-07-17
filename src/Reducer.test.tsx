@@ -1,8 +1,51 @@
+import config from './config.json';
 import RobotReducer, { initialState } from './Reducer';
 import { FACES, COMMANDS } from './Types';
 
 test('reduces an invalid/improper action command by returning state', () => {
     expect(RobotReducer(initialState, { type: 'INVALID_ACTION'})).toEqual(initialState);
+});
+
+describe('PLACE commands', () => {
+    test('can be reduced', () => {
+        let action = { 
+            type: COMMANDS.Place,
+            x: config.width - 1,
+            y: 2,
+            face: FACES.South
+        };
+
+        expect(RobotReducer(initialState, action)).toEqual({
+            x: config.width - 1,
+            y: 2,
+            face: FACES.South,
+            placed: true,
+        });
+    });
+
+    describe('are boundary-checked', () => {
+        test('on the x dim', () => {
+            let action = { 
+                type: COMMANDS.Place,
+                x: config.width + 1,
+                y: config.height,
+                face: FACES.South
+            };
+
+            expect(RobotReducer(initialState, action)).toEqual(initialState);
+        });
+
+        test('on the y dim', () => {
+            let action = { 
+                type: COMMANDS.Place,
+                x: config.width + 1,
+                y: -1,
+                face: FACES.South
+            };
+
+            expect(RobotReducer(initialState, action)).toEqual(initialState);
+        });
+    });
 });
 
 describe('MOVE commands', () => {
@@ -31,10 +74,10 @@ describe('MOVE commands', () => {
         });
 
         test('to the East', () => {
-            let placedState = { x: 4, y: 0, face: FACES.East, placed: true };
+            let placedState = { x: config.width - 1, y: 0, face: FACES.East, placed: true };
 
             expect(RobotReducer(placedState, action)).toEqual({
-                x: 4,
+                x: config.width - 1,
                 y: 0,
                 face: FACES.East,
                 placed: true,
@@ -42,11 +85,11 @@ describe('MOVE commands', () => {
         });
 
         test('to the North', () => {
-            let placedState = { x: 0, y: 4, face: FACES.North, placed: true };
+            let placedState = { x: 0, y: config.height - 1, face: FACES.North, placed: true };
 
             expect(RobotReducer(placedState, action)).toEqual({
                 x: 0,
-                y: 4,
+                y: config.height - 1,
                 face: FACES.North,
                 placed: true,
             })
@@ -65,44 +108,14 @@ describe('MOVE commands', () => {
     });
 });
 
-describe('PLACE commands', () => {
-    test('can be reduced', () => {
-        let action = { 
-            type: COMMANDS.Place,
-            x: 4,
-            y: 2,
-            face: FACES.South
-        };
+describe('LEFT command', () => {
+    let action = { type: COMMANDS.Left };
 
-        expect(RobotReducer(initialState, action)).toEqual({
-            x: 4,
-            y: 2,
-            face: FACES.South,
-            placed: true,
-        });
-    });
-
-    describe('are boundary-checked', () => {
-        test('on the x dim', () => {
-            let action = { 
-                type: COMMANDS.Place,
-                x: 6,
-                y: 4,
-                face: FACES.South
-            };
-
-            expect(RobotReducer(initialState, action)).toEqual(initialState);
-        });
-
-        test('on the y dim', () => {
-            let action = { 
-                type: COMMANDS.Place,
-                x: 4,
-                y: -1,
-                face: FACES.South
-            };
-
-            expect(RobotReducer(initialState, action)).toEqual(initialState);
+    test ('rotates left', () => {
+        let placedState = { x: 0, y: 0, faces: FACES.North, placed: true};
+        
+        expect(RobotReducer(placedState, action)).toEqual({
+            x: 0, y: 0, face: FACES.West, placed: true
         });
     });
 });
