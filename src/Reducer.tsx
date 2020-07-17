@@ -27,7 +27,7 @@ type Action =
 };
 
 const validLocation = (x: number, y: number): boolean => (
-    x < config.width && y < config.height
+    x < config.width && y < config.height && x >= 0 && y >= 0
 );
 
 function Reducer(state: State, action: Action): State {
