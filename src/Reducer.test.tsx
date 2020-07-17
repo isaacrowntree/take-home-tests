@@ -112,6 +112,13 @@ describe('LEFT command', () => {
     let action = { type: COMMANDS.Left };
 
     test ('rotates left', () => {
+        let placedState = { x: 0, y: 0, face: FACES.South, placed: true};
+
+        expect(RobotReducer(placedState, action)).toEqual({
+            x: 0, y: 0, face: FACES.East, placed: true
+        });
+    });
+    test ('rotates left around array', () => {
         let placedState = { x: 0, y: 0, face: FACES.North, placed: true};
 
         expect(RobotReducer(placedState, action)).toEqual({
@@ -124,6 +131,13 @@ describe('RIGHT command', () => {
     let action = { type: COMMANDS.Right };
 
     test ('rotates right', () => {
+        let placedState = { x: 0, y: 0, face: FACES.North, placed: true};
+
+        expect(RobotReducer(placedState, action)).toEqual({
+            x: 0, y: 0, face: FACES.East, placed: true
+        });
+    });
+    test ('rotates right around array', () => {
         let placedState = { x: 0, y: 0, face: FACES.West, placed: true};
 
         expect(RobotReducer(placedState, action)).toEqual({
