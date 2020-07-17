@@ -21,7 +21,9 @@ function App () {
         const [x, y, face] = args ? args.split(',') : [];
 
         if (i === state.step) {
-          RobotCommands(command, state, dispatch, { x: parseInt(x, 10), y: parseInt(y, 10), face });
+          setTimeout(() => {
+            RobotCommands(command, state, dispatch, { x: parseInt(x, 10), y: parseInt(y, 10), face });
+          }, 200);
         }
       }
     }
