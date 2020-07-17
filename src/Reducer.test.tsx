@@ -61,6 +61,14 @@ describe('MOVE commands', () => {
         })
     });
 
+    test('does nothing if not placed', () => {
+        let placedState = { x: 0, y: 0, face: FACES.North, placed: false };
+
+        expect(RobotReducer(placedState, action)).toEqual({
+            x: 0, y: 0, face: FACES.North, placed: false
+        });
+    });
+
     describe('are boundary-checked', () => {
         test('to the West', () => {
             let placedState = { x: 0, y: 0, face: FACES.West, placed: true };
