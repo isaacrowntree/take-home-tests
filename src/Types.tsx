@@ -11,4 +11,6 @@ export enum COMMANDS {
     Left = 'LEFT',
     Right = 'RIGHT',
     Report = 'REPORT',
+    Reset = 'RESET',
+    NextStep = 'NEXTSTEP',
 }
