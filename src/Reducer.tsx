@@ -48,7 +48,7 @@ function Reducer(state: State, action: Action): State {
             const moveX = x + incrementX;
             const moveY = y + incrementY;
 
-            if (validLocation(moveX, moveY)) {
+            if (validLocation(moveX, moveY) && placed) {
                 return { ...state, x: moveX, y: moveY};
             }
             return state;
