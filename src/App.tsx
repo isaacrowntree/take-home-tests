@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect, useState } from 'react';
+import config from './config.json';
 import RobotReducer, { initialState } from './Reducer';
 import RobotCommands from './RobotCommands';
 import { orientation } from './RobotUI';
@@ -30,11 +31,28 @@ function App () {
     }
   }, [commands, state]);
 
+  let cells = [];
+  for (let j = 0; j < config.width; j++) {
+    if (cells[j] === undefined) {
+      cells[j] = [];
+    }
+    for (let k = 0; k < config.height; k++) {
+      let row: JSX.Element[] = cells[j];
+      if (k === state.x && j === state.y && state.placed) {
+        row.push(<i className={`fas fa-robot fa-rotate-${orientation.get(state.face)}`}></i>);
+      } else {
+        row.push(<div className="cell"></div>);
+      }
+      cells[j] = row;
+    }
+  }
+  cells.reverse();
+
   return (
     <div className="App">
       <header className="App-header">
         <div className="container">
-          <i className={`fas fa-robot fa-rotate-${orientation.get(state.face)}`}></i>
+          {cells.flat()}
         </div>
       </header>
     </div>

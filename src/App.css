@@ -19,3 +19,11 @@
   grid-template-columns: 100px 100px 100px 100px 100px;
   grid-template-rows: 100px 100px 100px 100px 100px;
 }
+
+.fa-robot {
+  place-self: center
+}
+
+.cell {
+  border: 1px solid white;
+}
