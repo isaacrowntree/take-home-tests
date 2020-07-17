@@ -127,7 +127,7 @@ describe('RIGHT command', () => {
         let placedState = { x: 0, y: 0, face: FACES.West, placed: true};
 
         expect(RobotReducer(placedState, action)).toEqual({
-            x: 0, y: 0, face: FACES.South, placed: true
+            x: 0, y: 0, face: FACES.North, placed: true
         });
     });
 });

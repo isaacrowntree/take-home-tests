@@ -53,17 +53,29 @@ function Reducer(state: State, action: Action): State {
             }
             return state;
         case COMMANDS.Left:
-            let index = 0;
+            let leftIndex = 0;
             for (let i = 0; i < rotationOrder.length; i++) {
                 if (rotationOrder[i] === face) {
-                    index = i;
+                    leftIndex = i;
                 }
             }
-            let newIndex = index - 1;
-            if (newIndex < 0) {
-                newIndex = rotationOrder.length - 1;
+            let newLeftIndex = leftIndex - 1;
+            if (newLeftIndex < 0) {
+                newLeftIndex = rotationOrder.length - 1;
             }
-            return { ...state, face: rotationOrder[newIndex] };
+            return { ...state, face: rotationOrder[newLeftIndex] };
+        case COMMANDS.Right:
+            let rightIndex = 0;
+            for (let i = 0; i < rotationOrder.length; i++) {
+                if (rotationOrder[i] === face) {
+                    rightIndex = i;
+                }
+            }
+            let newRightIndex = rightIndex + 1;
+            if (newRightIndex >= rotationOrder.length) {
+                newRightIndex = 0;
+            }
+            return { ...state, face: rotationOrder[newRightIndex] };
         default:
             return state;
     }
