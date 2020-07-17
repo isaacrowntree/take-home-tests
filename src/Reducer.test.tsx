@@ -1,5 +1,5 @@
-import { useReducer } from 'react';
-import RobotReducer, { initialState, FACES, COMMANDS } from './Reducer';
+import RobotReducer, { initialState } from './Reducer';
+import { FACES, COMMANDS } from './Types';
 
 test('reduces an invalid/improper action command by returning state', () => {
     expect(RobotReducer(initialState, { type: 'INVALID_ACTION'})).toEqual(initialState);

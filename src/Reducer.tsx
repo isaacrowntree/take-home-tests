@@ -1,19 +1,12 @@
 import config from './config.json';
+import { FACES, COMMANDS } from './Types';
 
-export enum FACES {
-    North = 'NORTH',
-    South = 'SOUTH',
-    East = 'EAST',
-    West = 'WEST',
-}
-
-export enum COMMANDS {
-    Place = 'PLACE',
-    Move = 'MOVE',
-    Left = 'LEFT',
-    Right = 'RIGHT',
-    Report = 'REPORT',
-}
+const moves = new Map([
+    [FACES.East, {x: 1, y: 0}],
+    [FACES.West, {x: -1, y: 0}],
+    [FACES.North, {x: 0, y: 1}],
+    [FACES.South, {x: 0, y: -1}],
+]);
 
 type State = {
     x: number;
@@ -34,15 +27,20 @@ type Action =
 };
 
 function Reducer(state: State, action: Action): State {
+    const { x, y, face, placed } = state;
+
     switch(action.type) {
         case COMMANDS.Place:
-            const { x, y, face } = action;
+            const { x: newX, y: newY, face: newFace } = action;
 
-            if (x >= config.width || y >= config.height) {
+            if (newX >= config.width || newY >= config.height) {
                 return state;
             } else {
-                return { x, y, face, placed: true };
+                return { x: newX, y: newY, face: newFace, placed: true };
             }
+        case COMMANDS.Move:
+            const move = moves.get(face);
+            return { ...state, x: x + move.x, y: y + move.y};
         default:
             return state;
     }
