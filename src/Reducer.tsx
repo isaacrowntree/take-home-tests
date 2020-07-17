@@ -26,6 +26,10 @@ type Action =
     placed: false,
 };
 
+const validLocation = (x: number, y: number): boolean => (
+    x < config.width && y < config.height
+);
+
 function Reducer(state: State, action: Action): State {
     const { x, y, face, placed } = state;
 
@@ -33,14 +37,19 @@ function Reducer(state: State, action: Action): State {
         case COMMANDS.Place:
             const { x: newX, y: newY, face: newFace } = action;
 
-            if (newX >= config.width || newY >= config.height) {
-                return state;
-            } else {
+            if (validLocation(newX, newY)) {
                 return { x: newX, y: newY, face: newFace, placed: true };
             }
+            return state;
         case COMMANDS.Move:
-            const move = moves.get(face);
-            return { ...state, x: x + move.x, y: y + move.y};
+            const { x: incrementX, y: incrementY } = moves.get(face);
+            const moveX = x + incrementX;
+            const moveY = y + incrementY;
+
+            if (validLocation(moveX, moveY)) {
+                return { ...state, x: moveX, y: moveY};
+            }
+            return state;
         default:
             return state;
     }

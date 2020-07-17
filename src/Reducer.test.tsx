@@ -17,6 +17,18 @@ describe('MOVE commands', () => {
             placed: true,
         })
     });
+
+    describe('are boundary-checked', () => {
+        let action = { type: COMMANDS.Move };
+        let placedState = { x: 0, y: 0, face: FACES.West, placed: true };
+
+        expect(RobotReducer(placedState, action)).toEqual({
+            x: 0,
+            y: 0,
+            face: FACES.West,
+            placed: true,
+        })
+    });
 });
 
 describe('PLACE commands', () => {
@@ -36,7 +48,7 @@ describe('PLACE commands', () => {
         });
     });
 
-    describe('are boundary checked', () => {
+    describe('are boundary-checked', () => {
         test('on the x dim', () => {
             let action = { 
                 type: COMMANDS.Place,
@@ -52,7 +64,7 @@ describe('PLACE commands', () => {
             let action = { 
                 type: COMMANDS.Place,
                 x: 4,
-                y: 6,
+                y: -1,
                 face: FACES.South
             };
 
