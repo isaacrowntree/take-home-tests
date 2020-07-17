@@ -133,6 +133,14 @@ describe('LEFT command', () => {
             x: 0, y: 0, face: FACES.West, placed: true
         });
     });
+
+    test('does nothing if not placed', () => {
+        let placedState = { x: 0, y: 0, face: FACES.North, placed: false };
+
+        expect(RobotReducer(placedState, action)).toEqual({
+            x: 0, y: 0, face: FACES.North, placed: false
+        });
+    });
 });
 
 describe('RIGHT command', () => {
@@ -150,6 +158,13 @@ describe('RIGHT command', () => {
 
         expect(RobotReducer(placedState, action)).toEqual({
             x: 0, y: 0, face: FACES.North, placed: true
+        });
+    });
+    test('does nothing if not placed', () => {
+        let placedState = { x: 0, y: 0, face: FACES.North, placed: false };
+
+        expect(RobotReducer(placedState, action)).toEqual({
+            x: 0, y: 0, face: FACES.North, placed: false
         });
     });
 });
