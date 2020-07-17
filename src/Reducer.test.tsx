@@ -112,8 +112,8 @@ describe('LEFT command', () => {
     let action = { type: COMMANDS.Left };
 
     test ('rotates left', () => {
-        let placedState = { x: 0, y: 0, faces: FACES.North, placed: true};
-        
+        let placedState = { x: 0, y: 0, face: FACES.North, placed: true};
+
         expect(RobotReducer(placedState, action)).toEqual({
             x: 0, y: 0, face: FACES.West, placed: true
         });

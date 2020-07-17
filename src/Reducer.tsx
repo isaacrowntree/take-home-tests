@@ -8,6 +8,8 @@ const moves = new Map([
     [FACES.South, {x: 0, y: -1}],
 ]);
 
+const rotationOrder = [FACES.North, FACES.East, FACES.South, FACES.West];
+
 type State = {
     x: number;
     y: number;
@@ -51,7 +53,17 @@ function Reducer(state: State, action: Action): State {
             }
             return state;
         case COMMANDS.Left:
-            
+            let index = 0;
+            for (let i = 0; i < rotationOrder.length; i++) {
+                if (rotationOrder[i] === face) {
+                    index = i;
+                }
+            }
+            let newIndex = index - 1;
+            if (newIndex < 0) {
+                newIndex = rotationOrder.length - 1;
+            }
+            return { ...state, face: rotationOrder[newIndex] };
         default:
             return state;
     }
