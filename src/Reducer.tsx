@@ -19,7 +19,9 @@ type State = {
 
 type Action =
  | { type: COMMANDS.Place, x: number, y: number, face: FACES}
- | { type: COMMANDS.Move };
+ | { type: COMMANDS.Move }
+ | { type: COMMANDS.Left }
+ | { type: COMMANDS.Right };
 
  export const initialState = {
     x: 0,
@@ -31,6 +33,15 @@ type Action =
 const validLocation = (x: number, y: number): boolean => (
     x < config.width && y < config.height && x >= 0 && y >= 0
 );
+
+const currentRotationIndex = (face: FACES): number => {
+    for (let i = 0; i < rotationOrder.length; i++) {
+        if (rotationOrder[i] === face) {
+            return i;
+        }
+    }
+    return 0;
+};
 
 function Reducer(state: State, action: Action): State {
     const { x, y, face, placed } = state;
@@ -44,7 +55,7 @@ function Reducer(state: State, action: Action): State {
             }
             return state;
         case COMMANDS.Move:
-            const { x: incrementX, y: incrementY } = moves.get(face);
+            const { x: incrementX, y: incrementY } = moves.get(face) || { x: 0, y: 0};
             const moveX = x + incrementX;
             const moveY = y + incrementY;
 
@@ -55,13 +66,7 @@ function Reducer(state: State, action: Action): State {
         case COMMANDS.Left:
             if (!placed) { return state; }
 
-            let leftIndex = 0;
-            for (let i = 0; i < rotationOrder.length; i++) {
-                if (rotationOrder[i] === face) {
-                    leftIndex = i;
-                }
-            }
-            let newLeftIndex = leftIndex - 1;
+            let newLeftIndex = currentRotationIndex(face) - 1;
             if (newLeftIndex < 0) {
                 newLeftIndex = rotationOrder.length - 1;
             }
@@ -69,13 +74,7 @@ function Reducer(state: State, action: Action): State {
         case COMMANDS.Right:
             if (!placed) { return state; }
 
-            let rightIndex = 0;
-            for (let i = 0; i < rotationOrder.length; i++) {
-                if (rotationOrder[i] === face) {
-                    rightIndex = i;
-                }
-            }
-            let newRightIndex = rightIndex + 1;
+            let newRightIndex = currentRotationIndex(face) + 1;
             if (newRightIndex >= rotationOrder.length) {
                 newRightIndex = 0;
             }
