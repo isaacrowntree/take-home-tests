@@ -1,33 +1,48 @@
+import config from './config.json';
 
-enum FACES {
+export enum FACES {
     North = 'NORTH',
     South = 'SOUTH',
     East = 'EAST',
     West = 'WEST',
 }
 
+export enum COMMANDS {
+    Place = 'PLACE',
+    Move = 'MOVE',
+    Left = 'LEFT',
+    Right = 'RIGHT',
+    Report = 'REPORT',
+}
+
 type State = {
     x: number;
     y: number;
     face: FACES;
+    placed: boolean;
 }
 
 type Action =
- | { type: 'PLACE', x: number, y: number, face: FACES}
- | { type: 'request' }
- | { type: 'success', results: State }
- | { type: 'failure', error: string };
+ | { type: COMMANDS.Place, x: number, y: number, face: FACES}
+ | { type: COMMANDS.Move };
 
  export const initialState = {
     x: 0,
     y: 0,
     face: FACES.North,
+    placed: false,
 };
 
 function Reducer(state: State, action: Action): State {
     switch(action.type) {
-        case 'PLACE':
-            return { x: action.x, y: action.y, face: action.face };
+        case COMMANDS.Place:
+            const { x, y, face } = action;
+
+            if (x >= config.width || y >= config.height) {
+                return state;
+            } else {
+                return { x, y, face, placed: true };
+            }
         default:
             return state;
     }
