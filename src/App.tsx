@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect, useState } from 'react';
 import RobotReducer, { initialState } from './Reducer';
 import RobotCommands from './RobotCommands';
+import { orientation } from './RobotUI';
 import './App.css';
 
 function App () {
@@ -32,7 +33,9 @@ function App () {
   return (
     <div className="App">
       <header className="App-header">
-        <i className="fas fa-robot"></i>
+        <div className="container">
+          <i className={`fas fa-robot fa-rotate-${orientation.get(state.face)}`}></i>
+        </div>
       </header>
     </div>
   );
