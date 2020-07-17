@@ -119,3 +119,15 @@ describe('LEFT command', () => {
         });
     });
 });
+
+describe('RIGHT command', () => {
+    let action = { type: COMMANDS.Right };
+
+    test ('rotates right', () => {
+        let placedState = { x: 0, y: 0, face: FACES.West, placed: true};
+
+        expect(RobotReducer(placedState, action)).toEqual({
+            x: 0, y: 0, face: FACES.South, placed: true
+        });
+    });
+});
