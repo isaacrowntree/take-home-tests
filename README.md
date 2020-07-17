@@ -1,8 +1,29 @@
+IMPORTANT
+----------
+
+You can view the output as required in the take home test by running `npm start` and then (while the output runs in the browser)
+viewing your Javascript Console log.
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+*Installing*
+
+First, install NVM: https://github.com/nvm-sh/nvm
+
+Then:
+
+```
+git clone git@github.com:isaacrowntree/take-home-tests.git
+cd take-home-tests
+git checkout mr-yum-robot
+nvm install 14 # Latest node
+npm install # Get dev deps
 
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory (mr-yum-robot), you can run:
 
 ### `npm start`
 
