@@ -6,8 +6,8 @@ test('reduces an invalid/improper action command by returning state', () => {
 });
 
 describe('MOVE commands', () => {
+    let action = { type: COMMANDS.Move };
     test('can be reduced', () => {
-        let action = { type: COMMANDS.Move };
         let placedState = { x: 0, y: 0, face: FACES.North, placed: true };
 
         expect(RobotReducer(placedState, action)).toEqual({
@@ -19,15 +19,49 @@ describe('MOVE commands', () => {
     });
 
     describe('are boundary-checked', () => {
-        let action = { type: COMMANDS.Move };
-        let placedState = { x: 0, y: 0, face: FACES.West, placed: true };
+        test('to the West', () => {
+            let placedState = { x: 0, y: 0, face: FACES.West, placed: true };
 
-        expect(RobotReducer(placedState, action)).toEqual({
-            x: 0,
-            y: 0,
-            face: FACES.West,
-            placed: true,
-        })
+            expect(RobotReducer(placedState, action)).toEqual({
+                x: 0,
+                y: 0,
+                face: FACES.West,
+                placed: true,
+            })
+        });
+
+        test('to the East', () => {
+            let placedState = { x: 4, y: 0, face: FACES.East, placed: true };
+
+            expect(RobotReducer(placedState, action)).toEqual({
+                x: 4,
+                y: 0,
+                face: FACES.East,
+                placed: true,
+            })
+        });
+
+        test('to the North', () => {
+            let placedState = { x: 0, y: 4, face: FACES.North, placed: true };
+
+            expect(RobotReducer(placedState, action)).toEqual({
+                x: 0,
+                y: 4,
+                face: FACES.North,
+                placed: true,
+            })
+        });
+
+        test('to the South', () => {
+            let placedState = { x: 0, y: 0, face: FACES.South, placed: true };
+
+            expect(RobotReducer(placedState, action)).toEqual({
+                x: 0,
+                y: 0,
+                face: FACES.South,
+                placed: true,
+            })
+        });
     });
 });
 
