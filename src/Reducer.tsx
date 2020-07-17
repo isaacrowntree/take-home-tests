@@ -53,6 +53,8 @@ function Reducer(state: State, action: Action): State {
             }
             return state;
         case COMMANDS.Left:
+            if (!placed) { return state; }
+
             let leftIndex = 0;
             for (let i = 0; i < rotationOrder.length; i++) {
                 if (rotationOrder[i] === face) {
@@ -65,6 +67,8 @@ function Reducer(state: State, action: Action): State {
             }
             return { ...state, face: rotationOrder[newLeftIndex] };
         case COMMANDS.Right:
+            if (!placed) { return state; }
+
             let rightIndex = 0;
             for (let i = 0; i < rotationOrder.length; i++) {
                 if (rotationOrder[i] === face) {
