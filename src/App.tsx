@@ -24,7 +24,7 @@ function App () {
 
         if (i === state.step) {
           setTimeout(() => {
-            RobotCommands(command, state, dispatch, { x: parseInt(x, 10), y: parseInt(y, 10), face });
+            RobotCommands(command, [state, dispatch], console.log, { x: parseInt(x, 10), y: parseInt(y, 10), face });
           }, 200);
         }
       }
@@ -38,21 +38,21 @@ function App () {
     }
     for (let k = 0; k < config.height; k++) {
       let row: JSX.Element[] = cells[j];
+      let key: string = `${j}${k}`;
       if (k === state.x && j === state.y && state.placed) {
-        row.push(<i className={`fas fa-robot fa-rotate-${orientation.get(state.face)}`}></i>);
+        row.push(<i key={key} className={`fas fa-robot fa-rotate-${orientation.get(state.face)}`}></i>);
       } else {
-        row.push(<div className="cell"></div>);
+        row.push(<div key={key} className="cell" data-testid={key}></div>);
       }
       cells[j] = row;
     }
   }
-  cells.reverse();
 
   return (
     <div className="App">
       <header className="App-header">
         <div className="container">
-          {cells.flat()}
+          {cells.reverse().flat()}
         </div>
       </header>
     </div>

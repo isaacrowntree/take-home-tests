@@ -1,5 +1,5 @@
 import config from './config.json';
-import { FACES, COMMANDS } from './Types';
+import { FACES, COMMANDS, State, Action } from './Types';
 
 const moves = new Map([
     [FACES.East, {x: 1, y: 0}],
@@ -9,22 +9,6 @@ const moves = new Map([
 ]);
 
 const rotationOrder = [FACES.North, FACES.East, FACES.South, FACES.West];
-
-export type State = {
-    x: number;
-    y: number;
-    face: FACES;
-    placed: boolean;
-    step: number;
-}
-
-type Action =
- | { type: COMMANDS.Place, x: number, y: number, face: FACES}
- | { type: COMMANDS.Move }
- | { type: COMMANDS.Left }
- | { type: COMMANDS.Right }
- | { type: COMMANDS.Reset }
- | { type: COMMANDS.NextStep };
 
  export const initialState = {
     x: 0,
@@ -47,6 +31,8 @@ const currentRotationIndex = (face: FACES): number => {
     return 0;
 };
 
+const stateWithStep = (state: State, nextStep: number): State => ({ ...state, step: nextStep });
+
 function Reducer(state: State, action: Action): State {
     const { x, y, face, placed, step } = state;
     const nextStep = step + 1;
@@ -58,18 +44,18 @@ function Reducer(state: State, action: Action): State {
             if (validLocation(newX, newY)) {
                 return { x: newX, y: newY, face: newFace, placed: true, step: nextStep };
             }
-            return { ...state, step: nextStep };
+            return stateWithStep(state, nextStep);
         case COMMANDS.Move:
             const { x: incrementX, y: incrementY } = moves.get(face) || { x: 0, y: 0};
             const moveX = x + incrementX;
             const moveY = y + incrementY;
 
             if (validLocation(moveX, moveY) && placed) {
-                return { ...state, x: moveX, y: moveY, step: step +1};
+                return { ...state, x: moveX, y: moveY, step: nextStep};
             }
-            return state;
+            return stateWithStep(state, nextStep);
         case COMMANDS.Left:
-            if (!placed) { return state; }
+            if (!placed) { return stateWithStep(state, nextStep); }
 
             let newLeftIndex = currentRotationIndex(face) - 1;
             if (newLeftIndex < 0) {
@@ -77,7 +63,7 @@ function Reducer(state: State, action: Action): State {
             }
             return { ...state, face: rotationOrder[newLeftIndex], step: nextStep };
         case COMMANDS.Right:
-            if (!placed) { return state; }
+            if (!placed) { return stateWithStep(state, nextStep); }
 
             let newRightIndex = currentRotationIndex(face) + 1;
             if (newRightIndex >= rotationOrder.length) {
@@ -87,7 +73,7 @@ function Reducer(state: State, action: Action): State {
         case COMMANDS.Reset:
             return { ...state, placed: false, step: nextStep };
         case COMMANDS.NextStep:
-            return { ...state, step: nextStep };
+            return stateWithStep(state, nextStep);
         default:
             return state;
     }

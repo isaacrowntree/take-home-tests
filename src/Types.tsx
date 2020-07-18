@@ -14,3 +14,19 @@ export enum COMMANDS {
     Reset = 'RESET',
     NextStep = 'NEXTSTEP',
 }
+
+export type State = {
+    x: number;
+    y: number;
+    face: FACES;
+    placed: boolean;
+    step: number;
+}
+
+export type Action =
+ | { type: COMMANDS.Place, x: number, y: number, face: FACES}
+ | { type: COMMANDS.Move }
+ | { type: COMMANDS.Left }
+ | { type: COMMANDS.Right }
+ | { type: COMMANDS.Reset }
+ | { type: COMMANDS.NextStep };

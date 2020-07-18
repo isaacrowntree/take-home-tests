@@ -1,9 +1,14 @@
-import { COMMANDS } from "./Types";
-import { State } from './Reducer';
+import { COMMANDS, State, Action } from "./Types";
 
-function commands (command: string, state: State, dispatch: any, args: any): void {
+function commands (
+    command: string,
+    reducer: [State, React.Dispatch<Action>],
+    logger: Function,
+    args: any,
+): void {
+    const [state, dispatch] = reducer;
     switch(command)  {
-        case COMMANDS.Place: 
+        case COMMANDS.Place:
             dispatch({ type: command, ...args});
             break;
         case COMMANDS.Move:
@@ -17,7 +22,7 @@ function commands (command: string, state: State, dispatch: any, args: any): voi
             break;
         case COMMANDS.Report:
             if (state.placed) {
-                console.log(`${state.x},${state.y},${state.face}`)
+                logger(`${state.x},${state.y},${state.face}`)
             }
             dispatch({ type: COMMANDS.NextStep });
             break;
@@ -25,6 +30,6 @@ function commands (command: string, state: State, dispatch: any, args: any): voi
             dispatch({ type: COMMANDS.Reset });
             break;
     }
-} 
+}
 
 export default commands;
