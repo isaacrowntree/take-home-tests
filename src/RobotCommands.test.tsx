@@ -30,11 +30,20 @@ describe('commands', () => {
         expect(mockDispatch).toBeCalledWith( { type: COMMANDS.Right});
     });
 
-    test('REPORT command dispatches', () => {
-        let reportReducer = [{...initialState, placed: true}, mockDispatch];
-        RobotCommands(COMMANDS.Report, reportReducer, mockLogger, args);
-        expect(mockDispatch).toBeCalledWith( { type: COMMANDS.NextStep});
-        expect(mockLogger).toBeCalledWith( '0,0,NORTH');
+    describe('REPORT Command', () => {
+        test('REPORT command reports if placed', () => {
+            let reportReducer = [{...initialState, placed: true}, mockDispatch];
+            RobotCommands(COMMANDS.Report, reportReducer, mockLogger, args);
+            expect(mockDispatch).toBeCalledWith( { type: COMMANDS.NextStep});
+            expect(mockLogger).toBeCalledWith( '0,0,NORTH');
+        });
+        test('REPORT command does not report to log if not placed', () => {
+            const uniqueLogger = jest.fn();
+            let reportReducer = [initialState, mockDispatch];
+            RobotCommands(COMMANDS.Report, reportReducer, uniqueLogger, args);
+            expect(mockDispatch).toBeCalledWith( { type: COMMANDS.NextStep});
+            expect(uniqueLogger).not.toBeCalled();
+        });
     });
 
     test('RESET command dispatches', () => {
